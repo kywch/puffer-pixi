@@ -3,38 +3,56 @@ channels = ["nvidia", "conda-forge"]
 name = "puffer_pixi"
 platforms = ["linux-64"]
 
-[system-requirements]
-cuda = "12.8"
-
-[activation]
-scripts = ["venv_setup.sh"]
+[activation.env]
+CUDA_HOME = "$CONDA_PREFIX"
 
 [dependencies]
 python = ">=3.12,<3.13"
-pip = ">=25.2,<26"
-setuptools = ">=80.9.0,<81"
-wheel = ">=0.45.1,<0.46"
+pip = "*"
+setuptools = "*"
+wheel = "*"
 
 # dev-related
-git = ">=2.49.0,<3"
-ruff = ">=0.12.8,<0.13"
+git = "*"
+ruff = "*"
 
 # pufferlib build deps
-cython = ">=3.1.2,<4"
-cuda-toolkit = "==12.8"
+cython = "*"
 numpy = "<2"
+
+[feature.cu121]
+system-requirements = { cuda = "12.1" }
+[feature.cu121.dependencies]
+cuda-version = "12.1.*"
+cuda-toolkit = "==12.1.0"
+[feature.cu121.pypi-dependencies]
+torch = { index = "https://download.pytorch.org/whl/cu121" }
+torchvision = { index = "https://download.pytorch.org/whl/cu121" }
+torchaudio = { index = "https://download.pytorch.org/whl/cu121" }
+
+[feature.cu129]
+system-requirements = { cuda = "12.9" }
+[feature.cu129.dependencies]
+cuda-version = "12.9.*"
+cuda-toolkit = "==12.9.1"
+[feature.cu129.pypi-dependencies]
+torch = { index = "https://download.pytorch.org/whl/cu129" }
+torchvision = { index = "https://download.pytorch.org/whl/cu129" }
+torchaudio = { index = "https://download.pytorch.org/whl/cu129" }
 
 [pypi-options]
 no-build-isolation = ["pufferlib"]
 
 [pypi-dependencies]
-torch = { version = "==2.8.0", index = "https://download.pytorch.org/whl/cu128" }
-torchvision = { index = "https://download.pytorch.org/whl/cu128" }
-torchaudio = { index = "https://download.pytorch.org/whl/cu128" }
-jax = { version = "==0.7.0", extras = ["cuda12-local"] }
+jax = { extras = ["cuda12"] }
 pufferlib = { version = ">=3.0.0" }
+
+[environments]
+default = ["cu129"]
+cu129 = ["cu129"]
+cu121 = ["cu121"]
 
 [tasks]
 test_torch = "python -c 'import torch; print(torch.cuda.is_available())'"
-test_jax = "python -c 'import jax; print(jax.devices())'"
+test_jax = "python test_jax.py"
 puffer = "python -m pufferlib.pufferl"
