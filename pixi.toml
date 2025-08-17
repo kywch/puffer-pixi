@@ -24,11 +24,21 @@ numpy = "<2"
 system-requirements = { cuda = "12.1" }
 [feature.cu121.dependencies]
 cuda-version = "12.1.*"
-cuda-toolkit = "==12.1.0"
+cuda-toolkit = "==12.1.1"
 [feature.cu121.pypi-dependencies]
 torch = { index = "https://download.pytorch.org/whl/cu121" }
 torchvision = { index = "https://download.pytorch.org/whl/cu121" }
 torchaudio = { index = "https://download.pytorch.org/whl/cu121" }
+
+[feature.cu126]
+system-requirements = { cuda = "12.6" }
+[feature.cu126.dependencies]
+cuda-version = "12.6.*"
+cuda-toolkit = "==12.6.3"
+[feature.cu126.pypi-dependencies]
+torch = { index = "https://download.pytorch.org/whl/cu126" }
+torchvision = { index = "https://download.pytorch.org/whl/cu126" }
+torchaudio = { index = "https://download.pytorch.org/whl/cu126" }
 
 [feature.cu129]
 system-requirements = { cuda = "12.9" }
@@ -49,8 +59,9 @@ pufferlib = { version = ">=3.0.0" }
 
 [environments]
 default = ["cu129"]
-cu129 = ["cu129"]
 cu121 = ["cu121"]
+cu126 = ["cu126"]
+cu129 = ["cu129"]
 
 [tasks]
 test_torch = "python -c 'import torch; print(torch.cuda.is_available())'"
