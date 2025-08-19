@@ -25,20 +25,24 @@ ruff = "*"
 # CUDA
 cuda-version = "12.9.*"
 cuda-toolkit = "==12.9.1"
-pytorch-gpu = "*"
-torchvision = "*"
-torchaudio = "*"
 
 # pufferlib build deps
 cython = "*"
 numpy = "<2"
 
 [pypi-options]
-no-build-isolation = ["pufferlib"]
+# no-build-isolation = ["pufferlib"]
 
 [pypi-dependencies]
+# conda forge pytorch-gpu does not support 50XX gpus
+torch = { index = "https://download.pytorch.org/whl/cu129" }
+torchvision = { index = "https://download.pytorch.org/whl/cu129" }
+torchaudio = { index = "https://download.pytorch.org/whl/cu129" }
+
 jax = { extras = ["cuda12"] }
-pufferlib = { version = ">=3.0.0" }
+
+# pixi 0.52 does not handle no-build-isolation well, so manually install puffer
+# pufferlib = { version = ">=3.0.0" }
 
 [tasks]
 test_torch = "python -c 'import torch; print(torch.cuda.is_available())'"
