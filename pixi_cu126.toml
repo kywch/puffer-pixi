@@ -1,10 +1,13 @@
-[project]
+[workspace]
 channels = ["nvidia", "conda-forge"]
 name = "puffer_pixi"
 platforms = ["linux-64"]
 
 [activation.env]
 CUDA_HOME = "$CONDA_PREFIX"
+JAX_TRACEBACK_FILTERING = "off"
+JAX_DEFAULT_MATMUL_PRECISION = "highest"
+XLA_PYTHON_CLIENT_MEM_FRACTION = "0.3"
 
 [system-requirements]
 cuda = "12.6"
@@ -19,9 +22,12 @@ wheel = "*"
 git = "*"
 ruff = "*"
 
-# CUDA
+# CUDA 12.6
 cuda-version = "12.6.*"
 cuda-toolkit = "==12.6.3"
+pytorch-gpu = "*"
+torchvision = "*"
+torchaudio = "*"
 
 # pufferlib build deps
 cython = "*"
@@ -31,9 +37,6 @@ numpy = "<2"
 no-build-isolation = ["pufferlib"]
 
 [pypi-dependencies]
-torch = { index = "https://download.pytorch.org/whl/cu126" }
-torchvision = { index = "https://download.pytorch.org/whl/cu126" }
-torchaudio = { index = "https://download.pytorch.org/whl/cu126" }
 jax = { extras = ["cuda12"] }
 pufferlib = { version = ">=3.0.0" }
 
